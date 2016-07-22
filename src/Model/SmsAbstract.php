@@ -10,20 +10,33 @@ abstract class SmsAbstract extends MessageAbstract
     const DIRECTION_OUT       = 2;
     const DIRECTION_INTERNAL  = 3;
 
-    /**
-     * @var string
-     */
-    protected $_directionValue = self::DIRECTION_UNDEFINED;
+    const CODING_SCHEME_ASCII_GSM_7BIT = 0;
+    const CODING_SCHEME_BINARY = 4;
 
     /**
      * @var string
      */
-    protected $_operatorCode;
+    public $directionValue = self::DIRECTION_UNDEFINED;
 
     /**
      * @var string
      */
-    protected $_recipient;
+    public $operatorCode;
+
+    /**
+     * @var string
+     */
+    public $recipient;
+
+    /**
+     * @var int
+     */
+    public $dataCodingScheme;
+
+    /**
+     * @var int
+     */
+    public $partsNumber = 0;
 
     /**
      * @param string $directionValue
@@ -39,7 +52,7 @@ abstract class SmsAbstract extends MessageAbstract
             throw new \Exception("Invalid directionValue value: $directionValue");
         }
 
-        $this->_directionValue = $directionValue;
+        $this->directionValue = $directionValue;
         return $this;
     }
 
@@ -48,7 +61,7 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function getDirectionValue()
     {
-        return $this->_directionValue;
+        return $this->directionValue;
     }
 
     /**
@@ -56,7 +69,7 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function setOperatorCode($operatorCode)
     {
-        $this->_operatorCode = $operatorCode;
+        $this->operatorCode = $operatorCode;
         return $this;
     }
 
@@ -65,7 +78,7 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function getOperatorCode()
     {
-        return $this->_operatorCode;
+        return $this->operatorCode;
     }
 
     /**
@@ -73,7 +86,7 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function setRecipient($recipient)
     {
-        $this->_recipient = $recipient;
+        $this->recipient = $recipient;
         return $this;
     }
 
@@ -82,8 +95,43 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function getRecipient()
     {
-        return $this->_recipient;
+        return $this->recipient;
     }
+
+    /**
+     * @param int $dataCodingScheme
+     */
+    public function setDataCodingScheme($dataCodingScheme)
+    {
+        if (!in_array($dataCodingScheme, array(
+            self::CODING_SCHEME_ASCII_GSM_7BIT,
+            self::CODING_SCHEME_BINARY,
+        ))) {
+            throw new \Exception("Invalid dataCodingScheme value: $dataCodingScheme");
+        }
+
+        $this->dataCodingScheme = $dataCodingScheme;
+        return $this;
+    }
+
+    /**
+     * @param int $partsNumber
+     */
+    public function setPartsNumber($partsNumber)
+    {
+        $this->partsNumber = $partsNumber;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPartsNumber()
+    {
+        return $this->partsNumber;
+    }
+
+
 
     /**
      * @return \DOMElement

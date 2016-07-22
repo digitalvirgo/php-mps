@@ -27,6 +27,10 @@ abstract class MessageAbstract extends ModelAbstract
     const GENERIC_DELIVERY_REPORT     = 1;
     const MOBILE_USER_DELIVERY_REPORT = 3;
 
+    const DELIVERY_REPORT_NO_DELIVERY      = 0;
+    const DELIVERY_REPORT_MOBILE_END_POINT = 1;
+    const DELIVERY_REPORT_MOBILE_END_USER  = 3;
+
     /**
      * @var \DOMDocument
      */
@@ -50,57 +54,57 @@ abstract class MessageAbstract extends ModelAbstract
     /**
      * @var string
      */
-    protected $_id;
+    public $id;
 
     /**
      * @var string
      */
-    protected $_sender;
+    public $sender;
 
     /**
      * @var string
      */
-    protected $_senderAlias;
+    public $senderAlias;
 
     /**
      * @var \DateTime
      */
-    protected $_deliveryDate;
+    public $deliveryDate;
 
     /**
      * @var \DateTime
      */
-    protected $_sendDate;
+    public $sendDate;
 
     /**
      * @var \DateTime
      */
-    protected $_validityDate;
+    public $validityDate;
 
     /**
      * @var \DateTime
      */
-    protected $_creationDate;
+    public $creationDate;
 
     /**
      * @var integer
      */
-    protected $_priority;
+    public $priority;
 
     /**
      * @var string
      */
-    protected $_category;
+    public $category;
 
     /**
      * @var string
      */
-    protected $_billCode;
+    public $billCode;
 
     /**
      * @var integer
      */
-    protected $_replyToID;
+    public $replyToID;
 
     /**
      * @param string $username
@@ -131,7 +135,7 @@ abstract class MessageAbstract extends ModelAbstract
             throw new \Exception("Invalid billCode value: $billCode");
         }
 
-        $this->_billCode = $billCode;
+        $this->billCode = $billCode;
         return $this;
     }
 
@@ -140,7 +144,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getBillCode()
     {
-        return $this->_billCode;
+        return $this->billCode;
     }
 
     /**
@@ -163,7 +167,7 @@ abstract class MessageAbstract extends ModelAbstract
         }
 
 
-        $this->_category = $category;
+        $this->category = $category;
         return $this;
     }
 
@@ -172,7 +176,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getCategory()
     {
-        return $this->_category;
+        return $this->category;
     }
 
     /**
@@ -180,7 +184,11 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setCreationDate($creationDate)
     {
-        $this->_creationDate = $creationDate;
+        if ($creationDate instanceof \DateTime) {
+            $creationDate = $creationDate->format(self::DATE_FORMAT);
+        }
+
+        $this->creationDate = $creationDate;
         return $this;
     }
 
@@ -189,7 +197,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getCreationDate()
     {
-        return $this->_creationDate;
+        return $this->creationDate;
     }
 
     /**
@@ -197,7 +205,12 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setDeliveryDate($deliveryDate)
     {
-        $this->_deliveryDate = $deliveryDate;
+        if ($deliveryDate instanceof \DateTime) {
+            $deliveryDate = $deliveryDate->format(self::DATE_FORMAT);
+        }
+
+
+        $this->deliveryDate = $deliveryDate;
         return $this;
     }
 
@@ -206,7 +219,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getDeliveryDate()
     {
-        return $this->_deliveryDate;
+        return $this->deliveryDate;
         return $this;
     }
 
@@ -215,7 +228,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
         return $this;
     }
 
@@ -224,7 +237,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -258,7 +271,7 @@ abstract class MessageAbstract extends ModelAbstract
              throw new \Exception("Invalid priority value: $priority");
         }
 
-        $this->_priority = $priority;
+        $this->priority = $priority;
         return $this;
     }
 
@@ -267,7 +280,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getPriority()
     {
-        return $this->_priority;
+        return $this->priority;
     }
 
     /**
@@ -275,7 +288,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setReplyToID($replyToID)
     {
-        $this->_replyToID = $replyToID;
+        $this->replyToID = $replyToID;
         return $this;
     }
 
@@ -285,7 +298,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getReplyToID()
     {
-        return $this->_replyToID;
+        return $this->replyToID;
     }
 
     /**
@@ -293,7 +306,11 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setSendDate($sendDate)
     {
-        $this->_sendDate = $sendDate;
+        if ($sendDate instanceof \DateTime) {
+            $sendDate = $sendDate->format(self::DATE_FORMAT);
+        }
+
+        $this->sendDate = $sendDate;
         return $this;
     }
 
@@ -302,7 +319,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getSendDate()
     {
-        return $this->_sendDate;
+        return $this->sendDate;
     }
 
     /**
@@ -310,7 +327,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setSender($sender)
     {
-        $this->_sender = $sender;
+        $this->sender = $sender;
         return $this;
     }
 
@@ -319,7 +336,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getSender()
     {
-        return $this->_sender;
+        return $this->sender;
     }
 
     /**
@@ -327,7 +344,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setSenderAlias($senderAlias)
     {
-        $this->_senderAlias = $senderAlias;
+        $this->senderAlias = $senderAlias;
         return $this;
     }
 
@@ -336,7 +353,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getSenderAlias()
     {
-        return $this->_senderAlias;
+        return $this->senderAlias;
     }
 
     /**
@@ -344,7 +361,11 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setValidityDate($validityDate)
     {
-        $this->_validityDate = $validityDate;
+        if ($validityDate instanceof \DateTime) {
+            $validityDate = $validityDate->format(self::DATE_FORMAT);
+        }
+
+        $this->validityDate = $validityDate;
         return $this;
     }
 
@@ -353,7 +374,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function getValidityDate()
     {
-        return $this->_validityDate;
+        return $this->validityDate;
     }
 
     /**
@@ -521,7 +542,7 @@ abstract class MessageAbstract extends ModelAbstract
 
     public function validate()
     {
-        if (empty($this->_sender)) {
+        if (empty($this->sender)) {
             throw new \Exception('Sender field is required');
         }
 

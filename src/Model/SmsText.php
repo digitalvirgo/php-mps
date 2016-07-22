@@ -5,14 +5,25 @@ namespace DigitalVirgo\MPS\Model;
 class SmsText extends SmsAbstract
 {
 
-    protected $_text;
+    /**
+     * @var string
+     */
+    public $text;
+
+    /**
+     * @var int
+     */
+    public $dataCodingScheme = self::CODING_SCHEME_ASCII_GSM_7BIT;
 
     /**
      * @param mixed $text
      */
     public function setText($text)
     {
-        $this->_text = $text;
+        $this->text = $text;
+
+        $this->setPartsNumber(1);
+
         return $this;
     }
 
@@ -21,7 +32,7 @@ class SmsText extends SmsAbstract
      */
     public function getText()
     {
-        return $this->_text;
+        return $this->text;
     }
 
     public function getMessageType()
@@ -31,7 +42,7 @@ class SmsText extends SmsAbstract
 
     public function validate()
     {
-        if (empty($this->_text)) {
+        if (empty($this->text)) {
             throw new \Exception('text field is required');
         }
 
