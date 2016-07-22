@@ -7,6 +7,26 @@ abstract class MessageAbstract extends ModelAbstract
 
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
+    const PRIORITY_0 = 0;
+    const PRIORITY_1 = 1;
+    const PRIORITY_2 = 2;
+    const PRIORITY_3 = 3;
+
+    const BILL_BILL = 'BILL';
+    const BILL_FREE = 'FREE';
+
+    const CATEGORY_PAYMENT = 'PLAYMENT';
+    const CATEGORY_HELP    = 'HELP';
+    const CATEGORY_GAME    = 'GAME';
+    const CATEGORY_INFO    = 'INFO';
+    const CATEGORY_CHAT    = 'CHAT';
+    const CATEGORY_MEDIA   = 'MEDIA';
+    const CATEGORY_VOTE    = 'VOTE';
+    const CATEGORY_CONTENT = 'CONTENT';
+
+    const GENERIC_DELIVERY_REPORT     = 1;
+    const MOBILE_USER_DELIVERY_REPORT = 3;
+
     /**
      * @var \DOMDocument
      */
@@ -15,12 +35,12 @@ abstract class MessageAbstract extends ModelAbstract
     /**
      * @var string
      */
-    protected $_username; //@todo check if need
+    protected $_username;
 
     /**
      * @var string
      */
-    protected $_password; //@todo check if need
+    protected $_password;
 
     /**
      * @var integer
@@ -104,6 +124,13 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setBillCode($billCode)
     {
+        if (!in_array($billCode, array(
+            self::BILL_BILL,
+            self::BILL_FREE
+        ))) {
+            throw new \Exception("Invalid billCode value: $billCode");
+        }
+
         $this->_billCode = $billCode;
         return $this;
     }
@@ -121,6 +148,21 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setCategory($category)
     {
+
+        if (!in_array($category, array(
+            self::CATEGORY_PAYMENT,
+            self::CATEGORY_HELP,
+            self::CATEGORY_GAME,
+            self::CATEGORY_INFO,
+            self::CATEGORY_CHAT,
+            self::CATEGORY_MEDIA,
+            self::CATEGORY_VOTE,
+            self::CATEGORY_CONTENT
+        ))) {
+            throw new \Exception("Invalid category value: $category");
+        }
+
+
         $this->_category = $category;
         return $this;
     }
@@ -207,6 +249,15 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setPriority($priority)
     {
+        if (!in_array($priority, array(
+            self::PRIORITY_0,
+            self::PRIORITY_1,
+            self::PRIORITY_2,
+            self::PRIORITY_3
+        ))) {
+             throw new \Exception("Invalid priority value: $priority");
+        }
+
         $this->_priority = $priority;
         return $this;
     }
@@ -310,6 +361,13 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setDeliveryRequest($deliveryRequest)
     {
+        if (!in_array($deliveryRequest, array(
+            self::GENERIC_DELIVERY_REPORT,
+            self::MOBILE_USER_DELIVERY_REPORT
+        ))) {
+            throw new \Exception("Invalid deliveryRequest value: $deliveryRequest");
+        }
+
         $this->_deliveryRequest = $deliveryRequest;
         return $this;
     }
@@ -461,7 +519,7 @@ abstract class MessageAbstract extends ModelAbstract
         return $message;
     }
 
-    protected function validate()
+    public function validate()
     {
         if (empty($this->_sender)) {
             throw new \Exception('Sender field is required');

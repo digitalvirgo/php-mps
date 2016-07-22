@@ -29,7 +29,7 @@ class SmsText extends SmsAbstract
         return 'SMSText';
     }
 
-    protected function validate()
+    public function validate()
     {
         if (empty($this->_text)) {
             throw new \Exception('text field is required');

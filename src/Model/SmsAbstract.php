@@ -5,10 +5,15 @@ namespace DigitalVirgo\MPS\Model;
 abstract class SmsAbstract extends MessageAbstract
 {
 
+    const DIRECTION_UNDEFINED = 0;
+    const DIRECTION_IN        = 1;
+    const DIRECTION_OUT       = 2;
+    const DIRECTION_INTERNAL  = 3;
+
     /**
      * @var string
      */
-    protected $_directionValue;
+    protected $_directionValue = self::DIRECTION_UNDEFINED;
 
     /**
      * @var string
@@ -25,6 +30,15 @@ abstract class SmsAbstract extends MessageAbstract
      */
     public function setDirectionValue($directionValue)
     {
+        if (!in_array($directionValue, array(
+            self::DIRECTION_UNDEFINED,
+            self::DIRECTION_IN,
+            self::DIRECTION_OUT,
+            self::DIRECTION_INTERNAL
+        ))) {
+            throw new \Exception("Invalid directionValue value: $directionValue");
+        }
+
         $this->_directionValue = $directionValue;
         return $this;
     }

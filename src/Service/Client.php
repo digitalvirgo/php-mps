@@ -10,36 +10,41 @@ class Client extends GuzzleClient
 
     private static $_instance = null;
 
+    protected $defaults;
+
     protected $_url;
     protected $_username;
     protected $_password;
 
     /**
-     * @return null | MPSClient
+     * Setup basic auth
+     *
+     * @return null
+     */
+    protected function _configureAuth()
+    {
+        if ($this->_username && $this->_password) {
+            $this->setDefaultOption('auth', [$this->_username, $this->_password]);
+        }
+    }
+
+    /**
+     * @return null | Client
      */
     public static function getInstance()
     {
         if (null === static::$_instance) {
-            $config = \Zend_Registry::get('config');
-
-            $username = $config['mps']['username'];
-            $password = $config['mps']['password'];
-
-
 
             static::$_instance = new static(array(
-                'base_url' => $config['mps']['url'],
+                'base_url' => "http://beta2:20080",
                 'defaults' => array(
                     'headers' => array(
-                        'Content-type', 'application/x-www-form-urlencoded'
-                    ),
-                    'auth' => [$username, $password]
+                        'Content-type' => 'application/x-www-form-urlencoded'
+                    )
                 )
             ));
 
             static::$_instance->setDefaultOption('verify', false);
-            static::$_instance->setUsername($username);
-            static::$_instance->setPassword($password);
         }
 
         return static::$_instance;
@@ -51,6 +56,8 @@ class Client extends GuzzleClient
     public function setPassword($password)
     {
         $this->_password = $password;
+        $this->_configureAuth();
+
         return $this;
     }
 
@@ -85,6 +92,7 @@ class Client extends GuzzleClient
     public function setUsername($username)
     {
         $this->_username = $username;
+        $this->_configureAuth();
         return $this;
     }
 
@@ -99,10 +107,13 @@ class Client extends GuzzleClient
 
     public function sendMessage(MessageAbstract $message)
     {
-        $xml = $message->toXml();
 
-        $logger = \Zend_Registry::get('Logger');
-        $logger->info('Send SMS: ' . $xml);
+        $message->setUsername($this->getUsername());
+        $message->setPassword($this->getPassword());
+
+        $message->validate();
+
+        $xml = $message->toXml();
 
         $stream = \GuzzleHttp\Stream\Stream::factory($xml);
 
@@ -114,6 +125,7 @@ class Client extends GuzzleClient
         $body = $response->getBody();
 
         if ($response->getStatusCode() == 200) {
+
             $responseXml = simplexml_load_string($body);
             if ((string)$responseXml->responseStatus == '200') {
                 return $responseXml->messageID;
