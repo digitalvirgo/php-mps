@@ -13,7 +13,8 @@ class ClientSoap extends \SoapClient
     public static $classmap = array(
         'Message'              => 'DigitalVirgo\MPS\Model\MessageAbstract',
         'SMSText'              => 'DigitalVirgo\MPS\Model\SmsText',
-        'PlainTextCredentials' => 'DigitalVirgo\MPS\Model\PlainTextCredentials'
+        'PlainTextCredentials' => 'DigitalVirgo\MPS\Model\PlainTextCredentials',
+        'DeliveryReport'       => 'DigitalVirgo\MPS\Model\DeliveryReport'
     );
 
     protected $_credentials;
