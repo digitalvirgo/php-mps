@@ -10,6 +10,12 @@ class ClientRest extends GuzzleClient
 
     private static $_instance = null;
 
+    public static $classmap = array(
+        'Message'              => 'DigitalVirgo\MPS\Model\MessageAbstract',
+        'SMSText'              => 'DigitalVirgo\MPS\Model\SmsText',
+        'PlainTextCredentials' => 'DigitalVirgo\MPS\Model\PlainTextCredentials',
+        'DeliveryReport'       => 'DigitalVirgo\MPS\Model\DeliveryReport'
+    );
     protected $defaults;
 
     protected $_username;
@@ -117,6 +123,34 @@ class ClientRest extends GuzzleClient
         } else {
             throw new \Exception('Unable to send message: ['.$response->getStatusCode().'] '.$body->getContents());
         }
+    }
+
+    /**
+     * @param $xml string
+     * @return array ModelAbstract
+     * @throws \Exception
+     */
+    public static function parseXml($xml)
+    {
+        if (!$messages = simplexml_load_string($xml)) {
+            throw new \Exception('Unable to parse input string');
+        }
+
+        $models = [];
+
+        /** @var $message SimpleXMLElement */
+        foreach ($messages->message as $message) {
+            $className = (string)$message->attributes()['class'];
+
+            if (!array_key_exists($className, self::$classmap)) {
+                throw new \Exception("Unsupported class in request '$className'");
+            }
+
+            $models[] = new self::$classmap[$className]((array)$message);
+
+        }
+
+        return $models;
     }
 
 }

@@ -24,9 +24,6 @@ abstract class MessageAbstract extends ModelAbstract
     const CATEGORY_VOTE    = 'VOTE';
     const CATEGORY_CONTENT = 'CONTENT';
 
-    const GENERIC_DELIVERY_REPORT     = 1;
-    const MOBILE_USER_DELIVERY_REPORT = 3;
-
     const DELIVERY_REPORT_NO_DELIVERY      = 0;
     const DELIVERY_REPORT_MOBILE_END_POINT = 1;
     const DELIVERY_REPORT_MOBILE_END_USER  = 3;
@@ -383,8 +380,8 @@ abstract class MessageAbstract extends ModelAbstract
     public function setDeliveryRequest($deliveryRequest)
     {
         if (!in_array($deliveryRequest, array(
-            self::GENERIC_DELIVERY_REPORT,
-            self::MOBILE_USER_DELIVERY_REPORT
+            DeliveryReport::GENERIC_DELIVERY_REPORT,
+            DeliveryReport::MOBILE_USER_DELIVERY_REPORT
         ))) {
             throw new \Exception("Invalid deliveryRequest value: $deliveryRequest");
         }

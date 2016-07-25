@@ -10,6 +10,12 @@ class ClientSoap extends \SoapClient
 {
     const WSDL_URL = 'https://demo.partners.avantis.pl/mpsml-adapters/services/MPSLocal2?wsdl';
 
+    public static $classmap = array(
+        'Message'              => 'DigitalVirgo\MPS\Model\MessageAbstract',
+        'SMSText'              => 'DigitalVirgo\MPS\Model\SmsText',
+        'PlainTextCredentials' => 'DigitalVirgo\MPS\Model\PlainTextCredentials'
+    );
+
     protected $_credentials;
 
     public function __construct($username, $password)
@@ -20,11 +26,7 @@ class ClientSoap extends \SoapClient
         ));
 
         return parent::__construct(self::WSDL_URL, array(
-            'classmap' => array(
-                'Message'              => 'DigitalVirgo\MPS\Model\MessageAbstract',
-                'SMSText'              => 'DigitalVirgo\MPS\Model\SmsText',
-                'PlainTextCredentials' => 'DigitalVirgo\MPS\Model\PlainTextCredentials'
-            )
+            'classmap' => self::$classmap
         ));
     }
 
