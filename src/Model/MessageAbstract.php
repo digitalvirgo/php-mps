@@ -379,10 +379,7 @@ abstract class MessageAbstract extends ModelAbstract
      */
     public function setDeliveryRequest($deliveryRequest)
     {
-        if (!in_array($deliveryRequest, array(
-            DeliveryReport::GENERIC_DELIVERY_REPORT,
-            DeliveryReport::MOBILE_USER_DELIVERY_REPORT
-        ))) {
+        if (!in_array($deliveryRequest, DeliveryReport::$reportTypeMap)) {
             throw new \Exception("Invalid deliveryRequest value: $deliveryRequest");
         }
 

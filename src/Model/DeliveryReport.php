@@ -4,12 +4,16 @@ namespace DigitalVirgo\MPS\Model;
 
 class DeliveryReport extends ModelAbstract
 {
-    const GENERIC_DELIVERY_REPORT     = 1;
-    const MOBILE_USER_DELIVERY_REPORT = 3;
+    const NO_DELIVERY_REPORT              = 0;
+    const GENERIC_DELIVERY_REPORT         = 1;
+    const MOBILE_ENDPOINT_DELIVERY_REPORT = 2;
+    const MOBILE_USER_DELIVERY_REPORT     = 3;
 
     public static $reportTypeMap = array(
-        'GENERIC_DELIVERY_REPORT'     => self::GENERIC_DELIVERY_REPORT,
-        'MOBILE_USER_DELIVERY_REPORT' => self::MOBILE_USER_DELIVERY_REPORT
+        'NO_DELIVERY_REPORT'              => self::NO_DELIVERY_REPORT,
+        'GENERIC_DELIVERY_REPORT'         => self::GENERIC_DELIVERY_REPORT,
+        'MOBILE_ENDPOINT_DELIVERY_REPORT' => self::MOBILE_ENDPOINT_DELIVERY_REPORT,
+        'MOBILE_USER_DELIVERY_REPORT'     => self::MOBILE_USER_DELIVERY_REPORT
     );
 
     /**
