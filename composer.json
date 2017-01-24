@@ -1,5 +1,6 @@
 {
     "name": "digitalvirgo/php-mps",
+    "version": "0.4.0",
     "type": "library",
     "authors": [
         {
