@@ -16,7 +16,7 @@ or manualy update composer.json
 ...
     "require": {
         ...
-        "digitalvirgo/php-mps":"0.4.0"
+        "digitalvirgo/php-mps":"0.2.1"
     }
 }
 ```
