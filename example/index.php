@@ -60,6 +60,7 @@ $app->get('/rest/send', function (Request $request, Response $response) {
 $app->get('/soap/send', function (Request $request, Response $response) {
     /** SOAP EXAMPLE */
 
+    ClientSoap::setWsdlUrl('https://demo.partners.avantis.pl/mpsml-adapters/services/MPSLocal2?wsdl');
     $client = new ClientSoap('test', 'RHA/4jFit!');
 
     $sms = new SmsText([

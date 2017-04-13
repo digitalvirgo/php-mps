@@ -8,7 +8,7 @@ use DigitalVirgo\MPS\Model\PlainTextCredentials;
 
 class ClientSoap extends \SoapClient
 {
-    const WSDL_URL = 'https://demo.partners.avantis.pl/mpsml-adapters/services/MPSLocal2?wsdl';
+    static $wsdlUrl = null;
 
     public static $classmap = array(
         'Message'              => 'DigitalVirgo\MPS\Model\MessageAbstract',
@@ -21,12 +21,19 @@ class ClientSoap extends \SoapClient
 
     public function __construct($username, $password)
     {
+        if (self::$wsdlUrl === null) {
+            throw new \Exception('Wsdl url required!');
+        }
+
+        $this->__setLocation(self::$wsdlUrl);
+
         $this->_credentials = new PlainTextCredentials(array(
             'login'    => $username,
             'password' => $password
         ));
 
-        return parent::__construct(self::WSDL_URL, array(
+
+        return parent::__construct(self::$wsdlUrl, array(
             'classmap' => self::$classmap
         ));
     }
@@ -40,5 +47,22 @@ class ClientSoap extends \SoapClient
     {
         return parent::put($message, $this->_credentials, $deliveryReport);
     }
+
+    /**
+     * @return null|string
+     */
+    public static function getWsdlUrl()
+    {
+        return self::$wsdlUrl;
+    }
+
+    /**
+     * @param null|string $wsdlUrl
+     */
+    public static function setWsdlUrl($wsdlUrl)
+    {
+        self::$wsdlUrl = $wsdlUrl;
+    }
+
 
 }
